@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  carla:
+    image: carlasim/carla:0.9.15
+    command: ["bash", "CarlaUE4.sh", "-nosound"]
+    shm_size: '16g' 
+    runtime: nvidia
+    network_mode: host
+    # user: "root"
+    # user: "${UID}:${GID}" # 호스트 사용자 권한 (UID, GID 환경변수 필요)
+    environment:
+      - DISPLAY=${DISPLAY} # 호스트 DISPLAY 환경변수 (X11 GUI용)
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw" # X11 소켓 공유 (GUI용)
+
+      
+# xhost +local:root
+
+# docker start carla_0915-carla-1
+# docker exec -u root -it carla_0915-carla-1 bash
